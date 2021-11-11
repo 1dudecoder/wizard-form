@@ -1,6 +1,6 @@
 
-// import './App.css';
 import MultiStepform from "./MultiStepform"
+
 function App() {
   return (
     <div className="App">

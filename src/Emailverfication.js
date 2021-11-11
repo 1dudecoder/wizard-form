@@ -3,6 +3,9 @@ import { useForm } from "react-hook-form"
 import { yupResolver } from '@hookform/resolvers/yup';
 import "./Emailverification.css"
 import * as yup from "yup"
+import {useSelector, useDispatch} from "react-redux"
+import {storeEmailVerification} from "./Action/ActionCreator"
+
 
 const schema = yup.object().shape({
         email: yup.string().email().required(),
@@ -12,9 +15,11 @@ const schema = yup.object().shape({
 
 function Emailverfication() {
         const { register, handleSubmit, formState: { errors } } = useForm({ resolver: yupResolver(schema), });
-        
+        const dispatch = useDispatch();    
+
         const onSubmit = (e) => {
             console.log(e)
+            dispatch(storeEmailVerification(e))
         }
 
          return (
