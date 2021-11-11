@@ -10,7 +10,6 @@ const schema = yup.object().shape({
         cpassword: yup.string().oneOf([yup.ref("password"),null])
 });
 
-
 function Emailverfication() {
         const { register, handleSubmit, formState: { errors } } = useForm({ resolver: yupResolver(schema), });
         
@@ -39,7 +38,6 @@ function Emailverfication() {
                 {...register("password")}
               />
         {errors.password && <p>{errors.password?.message}</p>}
-
 
             <label>Re-enter Password</label>
               <input

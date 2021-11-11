@@ -5,11 +5,9 @@ import { useForm } from "react-hook-form"
 function UserVerification() {
 
     const { register, handleSubmit, formState: { errors } } = useForm();
+
     const onSubmit = (e) => {
-
-    
-
-
+        console.log(e)
     }
 
     return (
@@ -20,11 +18,10 @@ function UserVerification() {
                     your daily doc account </h6>
                 <label>Verify your Email</label>
                 <br/>
-
-                <input {...register("num1")} type="text" class="form-control" placeholder="0" maxlength="1"  />
-                <input {...register("num2")} type="text" class="form-control" placeholder="0" maxlength="1" />
-                <input {...register("num3")} type="text" class="form-control" placeholder="0" maxlength="1" />
-                <input {...register("num4")} type="text" class="form-control" placeholder="0" maxlength="1" />
+                <input {...register("num1")} type="text" placeholder="0" maxlength="1" />
+                <input {...register("num2")} type="text" placeholder="0" maxlength="1" />
+                <input {...register("num3")} type="text" placeholder="0" maxlength="1" />
+                <input {...register("num4")} type="text" placeholder="0" maxlength="1" />
 
                 <br />
                 <button type="submit">Verfiy Email</button>
