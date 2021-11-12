@@ -6,20 +6,21 @@ import * as yup from "yup"
 import {useSelector, useDispatch} from "react-redux"
 import {storeEmailVerification} from "./Action/ActionCreator"
 
-
 const schema = yup.object().shape({
         email: yup.string().email().required(),
         password: yup.string().min(8).max(32).required(),
         cpassword: yup.string().oneOf([yup.ref("password"),null])
 });
 
-function Emailverfication() {
+
+function Emailverfication(props) {
         const { register, handleSubmit, formState: { errors } } = useForm({ resolver: yupResolver(schema), });
         const dispatch = useDispatch();    
 
         const onSubmit = (e) => {
             console.log(e)
             dispatch(storeEmailVerification(e))
+            props.backtodepartment(10);
         }
 
          return (
@@ -53,7 +54,6 @@ function Emailverfication() {
         {errors.cpassword && <p> password should be match </p> }
               <br/>
                 <button type="submit">Verfiy Email</button>
-
             </div>
 
             </form>

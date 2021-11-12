@@ -1,11 +1,16 @@
 import React from "react";
 import { useForm } from "react-hook-form";
+import {useDispatch, useSelector} from "react-redux"
+import { storeHospitalDetails } from "./Action/ActionCreator";
+
 
 function HospitalDetails(props) {
   const {register,handleSubmit,formState: { errors },} = useForm();
+  const dispatch = useDispatch();
 
-  const onSubmit = (e) => {
-    console.log(e);
+  const onSubmit = (data) => {
+    console.log(data);
+    dispatch(storeHospitalDetails(data))
   };
 
   return (

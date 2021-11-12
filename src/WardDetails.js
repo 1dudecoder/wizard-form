@@ -1,12 +1,18 @@
 import React from 'react'
 import { useForm } from "react-hook-form";
+import {useDispatch, useSelector} from "react-redux"
+import { storeWardDetails } from './Action/ActionCreator';
+
 
 function WardDetails(props) {
     const {register,handleSubmit,formState: { errors },} = useForm();
+    const dispatch = useDispatch();
 
-    const onSubmit = (e) => {
-        console.log(e);
-      };
+    const onSubmit = (data) => {
+        dispatch(storeWardDetails(data))
+        console.log(data)
+        props.backtodepartment(5)
+    };
 
     return (
         <div>
@@ -19,14 +25,11 @@ function WardDetails(props) {
             <button type="button" onClick={()=>{
                 props.backtodepartment(3)
             }}>BACK</button>
-            <button type="button">SKIP</button>
-            <button type="submit" onClick={()=>{
-                setTimeout(()=>{
-                    console.log("HELLOW BRO")
-                },100)
-            }}>NEXT</button>
+            <button type="button" onClick={()=>{
+                props.backtodepartment(5)
+            }} >SKIP</button>
+            <button type="submit">NEXT</button>
             </form>
-
         </div>
     )
 }
