@@ -1,80 +1,62 @@
 import React from "react";
-import { useForm } from "react-hook-form";
 import {useDispatch, useSelector} from "react-redux"
 import { storeHospitalDetails } from "./Action/ActionCreator";
+import { Formik, Form, Field, ErrorMessage } from "formik";
 
 
 function HospitalDetails(props) {
-  const {register,handleSubmit,formState: { errors },} = useForm();
   const dispatch = useDispatch();
 
-  const onSubmit = (data) => {
+  const onSubmitData = (data) => {
     console.log(data);
     dispatch(storeHospitalDetails(data))
   };
 
   return (
+    <div className="container">
+    <Formik initialValues={{ 
+                hospitalname:"",
+                country:"",
+                city:"",
+                state:""
+            }}
+            onSubmit={onSubmitData}> 
+    <Form>
+      <div>logo</div>
+      <h5>Please Enter Hospital Details</h5>
       <div>
-        <form onSubmit={handleSubmit(onSubmit)}>
-        <h5>Please Enter Hospital Details</h5>
-        <h5>Hospital Name</h5>
-              <input
-                autoComplete="off"
-                {...register("hospitalName")}
-              />
-        <br />
-                 <label>Country</label>
-              
-        <select name="country" id="country" {...register("country")}>
-                  <option value="india">INDIA</option>
-                  <option value="pakistan">PAKISTAN</option>
-                  <option value="sri lanka">SRI LANKA</option>
-                  <option value="dubai">DUBAI</option>
-                
-        </select>
-        <br />
-                 <label>City</label>
-              
-        <select name="city" id="city" {...register("city")}>
-                  <option value="uttarakhand">Uttarakhand</option>
-                  <option value="delhi">Delhi</option>
-                  <option value="mombai">Mombai</option>
-                  <option value="pune">Pune</option>
-        </select>
-                 <label>State</label>
-              
-        <select name="state" id="state" {...register("state")}>
-                  <option value="uttarakhand">Uttarakhand</option>
-                  <option value="delhi">Delhi</option>
-                  <option value="mombai">Mombai</option>
-                  <option value="pune">Pune</option>
-        </select>
+      <label>Hospital Name</label>
+      <Field name="hospitalname" type="text" />
 
+      <label>Country</label>
+      <Field name="country" as="select">
+        <option value="INDIA">INDIA</option>
+        <option value="PAKISTAN">PAKISTAN</option>
+        <option value="USA">USA</option>
+      </Field>
+      <label>CITY</label>
+      <Field name="city" as="select">
+        <option value="UTTRAKHAND">UTTRAKHAND</option>
+        <option value="DELHI">DELHI</option>
+        <option value="PUNE">PUNE</option>
+      </Field>  
+      <label>STATE</label>
+      <Field name="state" as="select">
+        <option value="KOTDWARA">KOTDWARA</option>
+        <option value="DEHRADUN">DEHRADUN</option>
+        <option value="SRINAGAR">SRINAGAR</option>
+      </Field>
 
-        <br />
-        <br />
+      <button type="button" onClick={()=>{
+            props.backtodepartment(1)
+        }}>BACK</button>
+      <button type="submit">Next</button>
 
-        <button
-          onClick={() => {
-            props.backtodepartment(1);
-          }}
-          type="button"
-        >
-          Back
-        </button>
-
-        <button type="submit"
-          onClick={() => {
-            setTimeout(()=>{
-                props.backtodepartment(3);
-            },100)
-          }}
-        >
-          Next
-        </button>
-
-    </form>
       </div>
+
+      </Form>
+    </Formik>
+    </div>
   );
 }
 

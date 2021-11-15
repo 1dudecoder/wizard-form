@@ -3,41 +3,59 @@ import { useForm } from "react-hook-form"
 import {useDispatch, useSelector} from "react-redux"
 import { object } from 'yup/lib/locale';
 import { storeEmailOTP } from './Action/ActionCreator';
+import { Formik, Form, Field, ErrorMessage } from "formik";
 
 function EmailOTP(props) {
-
-    const { register, handleSubmit, formState: { errors } } = useForm();
     const dispatch = useDispatch();
-    
-    const onSubmit = (data) => {
+    const onSubmitData = (data) => {
         console.log(data)
         let myobject = Object.values(data);
         let otp = ""
         for(let i = 0; i < myobject.length; i++){
             otp += myobject[i];
         }
+        console.log(otp)
         dispatch(storeEmailOTP(otp))
         props.backtodepartment(1)
     }
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)} > 
-            <div className="Container">
-                <h4> Welcome to Daily Doc </h4>
-                <h6>Enter the six digit code we sent to your email address to verify
-                    your daily doc account </h6>
-                <label>Verify your Email</label>
-                <br/>
-                <input {...register("num1")} type="text" placeholder="0" maxlength="1" />
-                <input {...register("num2")} type="text" placeholder="0" maxlength="1" />
-                <input {...register("num3")} type="text" placeholder="0" maxlength="1" />
-                <input {...register("num4")} type="text" placeholder="0" maxlength="1" />
-                <input {...register("num5")} type="text" placeholder="0" maxlength="1" />
+        <div className="container">
+        <div>
+            <img src="logo.png" />
+            <h4>Welcome to Daily Doc</h4>
+        </div>
+        <h6>Enter the six digit code we sent to your email address to verify
+your daily doc account </h6>
+        <div className="myform">
 
-                <br />
-                <button type="submit">Verfiy Email</button>
-            </div>
-        </form>
+            <Formik initialValues={{ 
+                    num1: "",
+                    num2: "",
+                    num3: "",
+                    num4: "",
+                    num5: "",
+                    num6: "",
+            }}
+
+                onSubmit={onSubmitData}>
+                <Form>
+
+                <Field type="text" maxlength="1"  name="num1" onKeyPress="return isNumberKey(event)" />
+                <Field type="text" maxlength="1"  name="num2" onKeyPress="return isNumberKey(event)" />
+                <Field type="text" maxlength="1"  name="num3" onKeyPress="return isNumberKey(event)" />
+                <Field type="text" maxlength="1"  name="num4" onKeyPress="return isNumberKey(event)" />
+                <Field type="text" maxlength="1"  name="num5" onKeyPress="return isNumberKey(event)" />
+                <Field type="text" maxlength="1"  name="num6" onKeyPress="return isNumberKey(event)" />
+
+                <button type="submit">VERIFY</button>
+
+
+                </Form>
+            </Formik>
+        </div>
+
+        </div>
     )
 }
 

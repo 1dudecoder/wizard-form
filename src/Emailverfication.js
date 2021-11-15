@@ -1,63 +1,72 @@
-import React from 'react'
-import { useForm } from "react-hook-form"
+import React,{useEffect} from 'react'
 import { yupResolver } from '@hookform/resolvers/yup';
 import "./Emailverification.css"
 import * as yup from "yup"
 import {useSelector, useDispatch} from "react-redux"
 import {storeEmailVerification} from "./Action/ActionCreator"
+import { Formik, Form, Field, ErrorMessage } from "formik";
 
 const schema = yup.object().shape({
-        email: yup.string().email().required(),
-        password: yup.string().min(8).max(32).required(),
-        cpassword: yup.string().oneOf([yup.ref("password"),null])
+        email: yup.string().email().required(""),
+        password: yup.string().min(8).max(32).required(""),
+        cpassword: yup.string().oneOf([yup.ref("password"),null],"conform password should match to the passsword").required()
 });
 
-
 function Emailverfication(props) {
-        const { register, handleSubmit, formState: { errors } } = useForm({ resolver: yupResolver(schema), });
         const dispatch = useDispatch();    
-
-        const onSubmit = (e) => {
+        const onSubmitData = (e) => {
             console.log(e)
             dispatch(storeEmailVerification(e))
             props.backtodepartment(10);
         }
 
          return (
-            <div>
-            <form onSubmit={handleSubmit(onSubmit)}>
+        
+            <div className="container">
+            <div>
+                <img src="logo.png" />
+                <h4>Welcome to Daily Doc</h4>
+            </div>
+            <h6>Sign Up to Daily Doc</h6>
+            <div className="myform">
+                <Formik initialValues={{ 
+                        email: "",
+                        password: "",
+                        cpassword :""
+                    }}
+                    validationSchema={schema}
+                    onSubmit={onSubmitData}>
+                    <Form>
 
-            <div className="formdata">
-            <label>Email</label>
-              <input
-                autoComplete="off"
-                {...register("email")}
-              />
-    
-        <p>{errors.email?.message}</p>
-            <label>Password</label>
-              <input
-                type="password"
-                onChange={(e)=>{
-                }}
-                autoComplete="off"
-                {...register("password")}
-              />
-        {errors.password && <p>{errors.password?.message}</p>}
+                    <label>Email Id</label>
+                    <Field name="email" type="text" autoComplete ="off"/>   
+                    <ErrorMessage name="email" />
+                    
+                    <br />
+                    <br />
 
-            <label>Re-enter Password</label>
-              <input
-                type="password"
-                autoComplete="off"
-                {...register("cpassword")}
-              />
-        {errors.cpassword && <p> password should be match </p> }
-              <br/>
-                <button type="submit">Verfiy Email</button>
+                    <label>Password</label>
+                    <Field name="password" type="password" autoComplete ="off"/>  
+                    <ErrorMessage name="password" />
+
+                    <br />
+                    <br />
+
+                    <label>Re-enter Password</label>
+                    <Field name="cpassword" type="password" autoComplete ="off"/>   
+                    <ErrorMessage name="cpassword" />
+                    <br />
+                    <br />
+                    <button type="submit">VERIFY</button>
+
+
+                    </Form>
+                </Formik>
+            </div>
             </div>
 
-            </form>
-          </div>
+
+
          )
      }
 

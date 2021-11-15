@@ -1,48 +1,40 @@
-import React from 'react'
-import { useForm } from "react-hook-form";
+import React, { useEffect } from 'react'
 import {useDispatch, useSelector} from "react-redux"
 import { storeDepartmentDetails } from './Action/ActionCreator';
-
+import { Formik, Form, Field, ErrorMessage } from "formik";
 
 function DepartmentDetails(props) {
-    const {register,handleSubmit,formState: { errors },} = useForm();
     const dispatch = useDispatch();
 
-    const onSubmit = (data) => {
+    const onSubmitData = (data) => {
         console.log(data);
         dispatch(storeDepartmentDetails(data))
       };
     
     return (
-        <div>
-        <form onSubmit={handleSubmit(onSubmit)}>
-            <h5>Please Choose All Available Departments in your Hospital</h5>
-            <br/>
 
-         <label>Department Name</label>
-              
-        <select name="state" id="state" {...register("state")}>
-                  <option value="uttarakhand">Uttarakhand</option>
-                  <option value="delhi">Delhi</option>
-                  <option value="mombai">Mombai</option>
-                  <option value="pune">Pune</option>
-        </select>
+        <Formik initialValues={{
+            departments: ""
+        }}
+        onSubmit={onSubmitData}
+        >
+            <Form>
+                <div>logo</div>
+                <div>
+                <h5>Please Choose All Available Departments in your Hospital</h5>
+                <label>Department Name</label>
+                    <Field name="departments" type="text" />
+                </div>
+                <div>
+                    <button type="button" onClick={()=>{
+                         props.backtodepartment(2)
+                    }}>BACK</button>
+                    <button type="button">SKIP</button>
+                    <button type="submit">NEXT</button>
+                </div>
+            </Form>
+        </Formik>
 
-            <br />
-            <br />
-
-            <button onClick={()=>{
-                props.backtodepartment(2)
-            }}>BACK</button>
-            <button>SKIP</button>
-            <button type="submit" onClick={()=>{
-            setTimeout(()=>{
-                props.backtodepartment(4);
-            },100)
-            }}>NEXT</button>
-    </form>
-
-        </div>
     )
 }
 

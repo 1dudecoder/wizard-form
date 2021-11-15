@@ -7,6 +7,18 @@ export const storeEmailVerification = (data) => {
     }
 }
 
+// function storeEmailVerification() {
+//     return (dispatch) => {
+
+        
+
+//     };
+//   }
+
+
+
+
+
 export const storeEmailOTP = (data) => {
     return {
         type: ActionTypes.STORE_EMAIL_OTP,
