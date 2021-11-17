@@ -1,24 +1,37 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import {useDispatch, useSelector} from "react-redux"
 import { storeUserOTP } from './Action/ActionCreator';
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form, Field } from "formik";
+
 
 function UserVerification(props) {
-
     const dispatch = useDispatch();
-
+    const userotpdata = useSelector(state => {
+        return state.allformdata.myuserotpdata
+    })
     const onSubmitData = (data) => {
         console.log(data)
-
         let myobject = Object.values(data);
-        let phoneotp = ""
+        let otp = ""
         for(let i = 1; i < myobject.length; i++){
-            phoneotp += myobject[i];
+            otp += myobject[i];
         }
-        let phonenumber = myobject[0]
-        dispatch(storeUserOTP({phoneotp , phonenumber}))
-        props.backtodepartment(2)
+        // let phonenumber = myobject[0]
+
+        const admindata = JSON.parse(localStorage.getItem("admindetails"));
+        const _id = admindata.mobile_otp_id
+
+        dispatch(storeUserOTP({otp , _id}))
     }
+
+
+    useEffect(() => {
+        if(!Array.isArray(userotpdata)){
+            props.backtodepartment(2)
+        }
+    }, [userotpdata])
+
+
 
     return (
         <div className="container">

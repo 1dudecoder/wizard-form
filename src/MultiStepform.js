@@ -1,4 +1,5 @@
 import React,{useState} from 'react'
+import AdminDetails from './AdminDetails'
 import BedDetails from './BedDetails'
 import DepartmentDetails from './DepartmentDetails'
 import EmailOTP from './EmailOTP'
@@ -17,13 +18,17 @@ function MultiStepform() {
 
     function abc (step){
         switch (step) {
+
             case 0 : 
             return <Emailverfication backtodepartment={goback} />
             case 10: 
             return <EmailOTP backtodepartment={goback}/>
 
-            case 1 : 
+            case 1 :
+            return <AdminDetails backtodepartment={goback}/>  
+            case 11 : 
             return <UserVerification backtodepartment={goback} />
+
             case 2 : 
             return <HospitalDetails backtodepartment={goback} />
             case 3 : 

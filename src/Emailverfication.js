@@ -1,8 +1,7 @@
 import React,{useEffect} from 'react'
-import { yupResolver } from '@hookform/resolvers/yup';
 import "./Emailverification.css"
 import * as yup from "yup"
-import {useSelector, useDispatch} from "react-redux"
+import { useDispatch, useSelector} from "react-redux"
 import {storeEmailVerification} from "./Action/ActionCreator"
 import { Formik, Form, Field, ErrorMessage } from "formik";
 
@@ -13,12 +12,22 @@ const schema = yup.object().shape({
 });
 
 function Emailverfication(props) {
+        const emaildata = useSelector((res)=>{
+            return res.allformdata.myemailvalidationdata
+        });
+
         const dispatch = useDispatch();    
-        const onSubmitData = (e) => {
-            console.log(e)
+        const onSubmitData = (e) => {
             dispatch(storeEmailVerification(e))
-            props.backtodepartment(10);
         }
+
+        useEffect(()=>{
+            
+            if(!Array.isArray(emaildata)){
+                props.backtodepartment(10)
+            }
+
+        },[emaildata])
 
          return (
         
@@ -58,8 +67,6 @@ function Emailverfication(props) {
                     <br />
                     <br />
                     <button type="submit">VERIFY</button>
-
-
                     </Form>
                 </Formik>
             </div>

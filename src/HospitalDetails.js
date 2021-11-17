@@ -1,16 +1,29 @@
-import React from "react";
-import {useDispatch, useSelector} from "react-redux"
+import React,{useEffect} from "react";
+import {useDispatch,useSelector} from "react-redux"
 import { storeHospitalDetails } from "./Action/ActionCreator";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form, Field } from "formik";
 
 
 function HospitalDetails(props) {
   const dispatch = useDispatch();
+  const hostpitaldetails = useSelector(state => {
+    return state.allformdata.myhospitaldata
+  })
 
   const onSubmitData = (data) => {
     console.log(data);
     dispatch(storeHospitalDetails(data))
   };
+
+
+  useEffect(()=>{
+
+    if(!Array.isArray(hostpitaldetails)){
+        props.backtodepartment(3)
+    }
+
+},[hostpitaldetails])
+
 
   return (
     <div className="container">

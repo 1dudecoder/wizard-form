@@ -3,6 +3,7 @@ import { ActionTypes } from "../Action/ActionsTypes";
 const InitialFormState = {
   myemailvalidationdata: [],
   myemailotpdata: [],
+  myadmindetails: [],
   myuserotpdata: [],
   myhospitaldata: [],
   mydepartmentdata : [],
@@ -21,6 +22,9 @@ export const formReducer = (state = InitialFormState, { type, payload }) => {
 
     case ActionTypes.STORE_USER_OTP:
       return { ...state, myuserotpdata: payload };
+
+    case ActionTypes.STORE_ADMIN_DETAILS:
+      return { ...state, myadmindetails: payload };
 
     case ActionTypes.STORE_HOSPITAL_DETAILS:
       return { ...state, myhospitaldata: payload };

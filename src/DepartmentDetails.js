@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react'
-import {useDispatch, useSelector} from "react-redux"
+import React from 'react'
+import {useDispatch} from "react-redux"
 import { storeDepartmentDetails } from './Action/ActionCreator';
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form, Field } from "formik";
 
 function DepartmentDetails(props) {
     const dispatch = useDispatch();

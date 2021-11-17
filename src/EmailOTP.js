@@ -1,12 +1,15 @@
-import React from 'react'
-import { useForm } from "react-hook-form"
-import {useDispatch, useSelector} from "react-redux"
-import { object } from 'yup/lib/locale';
+import React,{useEffect} from 'react'
+import {useDispatch,useSelector} from "react-redux"
 import { storeEmailOTP } from './Action/ActionCreator';
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form, Field } from "formik";
 
 function EmailOTP(props) {
     const dispatch = useDispatch();
+
+    const emailotpdata = useSelector((res)=>{
+        return res.allformdata.myemailotpdata
+    });
+
     const onSubmitData = (data) => {
         console.log(data)
         let myobject = Object.values(data);
@@ -16,8 +19,15 @@ function EmailOTP(props) {
         }
         console.log(otp)
         dispatch(storeEmailOTP(otp))
-        props.backtodepartment(1)
     }
+
+    useEffect(() => {
+       
+        if(emailotpdata == "user has verified successfully"){
+            props.backtodepartment(1)
+        }
+
+    }, [emailotpdata])
 
     return (
         <div className="container">

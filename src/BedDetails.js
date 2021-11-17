@@ -1,12 +1,11 @@
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form, Field } from "formik";
 import React from 'react'
-import {useDispatch, useSelector} from "react-redux"
+import {useDispatch} from "react-redux"
 import { storeBedDetails } from './Action/ActionCreator';
 
 function BedDetails(props) {
 
     const dispatch = useDispatch();
-
     const onSubmitData = (data) => {
         console.log(data);
         dispatch(storeBedDetails(data))
