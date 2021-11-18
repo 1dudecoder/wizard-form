@@ -7,6 +7,7 @@ const InitialFormState = {
   myuserotpdata: [],
   myhospitaldata: [],
   mydepartmentdata : [],
+  getdepartmentdata : [],
   mywarddata : [],
   mybeddata : []
 };
@@ -31,6 +32,10 @@ export const formReducer = (state = InitialFormState, { type, payload }) => {
 
     case ActionTypes.STORE_DEPARTMENT_DETAILS:
       return { ...state, mydepartmentdata: payload };
+
+      case ActionTypes.GET_DEPARTMENT_DETAILS:
+        return { ...state, getdepartmentdata: payload };
+  
 
     case ActionTypes.STORE_WARD_DETAILS:
       return { ...state, mywarddata: payload };

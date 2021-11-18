@@ -3,7 +3,6 @@ import {useDispatch, useSelector} from "react-redux"
 import { storeUserOTP } from './Action/ActionCreator';
 import { Formik, Form, Field } from "formik";
 
-
 function UserVerification(props) {
     const dispatch = useDispatch();
     const userotpdata = useSelector(state => {

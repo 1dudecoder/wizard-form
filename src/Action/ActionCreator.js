@@ -1,7 +1,6 @@
 import axiosInstance from "../helpers/apiClient";
 import { ActionTypes } from "./ActionsTypes";
 
-// rohitnegi@gmail.com 
 
 const headers = {
     "Content-Type":"application/json",
@@ -27,17 +26,11 @@ export const storeEmailVerification = (data) => {
         }).catch(error => {
             console.log(error.response);
             console.log("error found ")
-            //write some code if user already exist in database
         })
     };
   }
 
-// export const storeEmailOTP = (data) => {
-//     return {
-//         type: ActionTypes.STORE_EMAIL_OTP,
-//         payload: data
-//     }
-// }
+
 
 export const storeEmailOTP = (data) => {
     let localdata = JSON.parse(localStorage.getItem("userdata"))
@@ -54,14 +47,7 @@ export const storeEmailOTP = (data) => {
     }
 }
 
-// export const Storeadmindetails = (data)=>{
-//     return {
-//         type:ActionTypes.STORE_ADMIN_DETAILS,
-//         payload: data
-//     }
-// }
 
-// STORE_ADMIN_DETAILS : "STORE_ADMIN_DETAILS"
 export const Storeadmindetails = (data) => {
     let localdata = JSON.parse(localStorage.getItem("userdata"))
     const user = {
@@ -92,23 +78,6 @@ export const Storeadmindetails = (data) => {
     }
 }
 
-
-// export const storeUserVerification = (data) => {
-//     console.log(data)
-//     return {
-//         type: ActionTypes.STORE_USER_VERIFICATION,
-//         payload: data
-//     }
-// }
-
-// export const storeUserOTP = (data) => {
-//     console.log(data)
-//     return {
-//         type: ActionTypes.STORE_USER_OTP,
-//         payload: data
-//     }
-// }
-
     export const storeUserOTP = (data) => {
         console.log(data)
         return (dispatch) => {
@@ -121,8 +90,6 @@ export const Storeadmindetails = (data) => {
             })
         }
     }
-
-
 
     export const storeHospitalDetails = (data) => {
         console.log(data)
@@ -142,6 +109,9 @@ export const Storeadmindetails = (data) => {
             axiosInstance.post("/onboarding/ob2", {hospital : hospitaldetails}, {headers: headers})
             .then(res=>{
                 console.log(res.data)
+                console.log(res.data.data.savedHospital._id + res.data.data.onboardingSession._id )
+                localStorage.setItem("hospital_id", res.data.data.savedHospital._id)
+                localStorage.setItem("session_id", res.data.data.onboardingSession._id)
                 dispatch({type:"STORE_HOSPITAL_DETAILS", payload: hospitaldetails})
             }).catch(err => {
                 console.log(err.response)
@@ -149,17 +119,46 @@ export const Storeadmindetails = (data) => {
         }
     }
 
-// export const storeHospitalDetails = (data) => {
-//     return {
-//         type: ActionTypes.STORE_HOSPITAL_DETAILS,
-//         payload: data
-//     }
-// }
 
+export const getDepartmentDetails = (data) => {
+    console.log(localStorage.getItem("token"))
+    const tokenheaders = {
+        "x-access-token": localStorage.getItem("token"),
+        "Content-Type": "application/json",
+      };
+
+      return (dispatch) => {
+        axiosInstance.get("/templates/departments", {headers : tokenheaders})
+        .then((res) => {
+            console.log(res.data.data)
+            dispatch({type:"GET_DEPARTMENT_DETAILS", payload : res.data.data})
+        }).catch(err => {
+            console.log(err.response)
+        })
+      }
+
+}
+
+
+//post request
 export const storeDepartmentDetails = (data) => {
-    return {
-        type: ActionTypes.STORE_DEPARTMENT_DETAILS,
-        payload: data
+    const deparments = data.map(sweetItem => {
+        return sweetItem._id
+    })
+        
+    console.log(deparments)
+    let session = localStorage.getItem("session_id")
+    let hospital = localStorage.getItem("hospital_id")
+
+    return (dispatch) => {
+        axiosInstance.post("/onboarding/ob3", {hospital, session, departments : deparments}, {headers: headers})
+        .then(res=>{
+            console.log(res.data)
+            dispatch({type:"STORE_DEPARTMENT_DETAILS", payload: res.data.message})
+            //here you can also store the data which will store the selected department
+        }).catch(err => {
+            console.log(err.response)
+        })
     }
 }
 
