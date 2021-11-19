@@ -8,8 +8,10 @@ const InitialFormState = {
   myhospitaldata: [],
   mydepartmentdata : [],
   getdepartmentdata : [],
+  getwardsdata : [],
+  addwards : [] ,
   mywarddata : [],
-  mybeddata : []
+  mybeddata : [],
 };
 
 export const formReducer = (state = InitialFormState, { type, payload }) => {
@@ -33,11 +35,16 @@ export const formReducer = (state = InitialFormState, { type, payload }) => {
     case ActionTypes.STORE_DEPARTMENT_DETAILS:
       return { ...state, mydepartmentdata: payload };
 
-      case ActionTypes.GET_DEPARTMENT_DETAILS:
-        return { ...state, getdepartmentdata: payload };
-  
+    case ActionTypes.GET_DEPARTMENT_DETAILS:
+      return { ...state, getdepartmentdata: payload };
 
-    case ActionTypes.STORE_WARD_DETAILS:
+    case ActionTypes.GET_WARDS_DETAILS:
+      return { ...state, getwardsdata: payload };
+
+    case ActionTypes.ADD_WARDS:
+      return { ...state, addwards: payload };
+      
+    case ActionTypes.STORE_WARDS_DETAILS:
       return { ...state, mywarddata: payload };
 
       case ActionTypes.STORE_BED_DETAILS:

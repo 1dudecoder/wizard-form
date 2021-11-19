@@ -31,7 +31,6 @@ export const storeEmailVerification = (data) => {
   }
 
 
-
 export const storeEmailOTP = (data) => {
     let localdata = JSON.parse(localStorage.getItem("userdata"))
     return (dispatch) => {
@@ -78,49 +77,51 @@ export const Storeadmindetails = (data) => {
     }
 }
 
-    export const storeUserOTP = (data) => {
-        console.log(data)
-        return (dispatch) => {
-            axiosInstance.post("/onboarding/ob1/verify/mobileOtp",{ otp: data.otp , _id: data._id }, {headers: headers})
-            .then(res=>{
-                console.log(res.data)
-                dispatch({type:"STORE_USER_OTP", payload: res.data.message})
-            }).catch(err => {
-                console.log(err.response)
-            })
-        }
+
+export const storeUserOTP = (data) => {
+    console.log(data)
+    return (dispatch) => {
+        axiosInstance.post("/onboarding/ob1/verify/mobileOtp",{ otp: data.otp , _id: data._id }, {headers: headers})
+        .then(res=>{
+            console.log(res.data)
+            dispatch({type:"STORE_USER_OTP", payload: res.data.message})
+        }).catch(err => {
+            console.log(err.response)
+        })
+    }
+}
+
+
+export const storeHospitalDetails = (data) => {
+    console.log(data)
+
+    const userdata = JSON.parse(localStorage.getItem("userdata"));
+
+    let hospitaldetails  = {
+        name: data.hospitalname,
+        rawAddress: data.city +" "+ data.state +" "+ data.country ,
+        country: data.country,
+        state: data.state,
+        city: data.city,
+        session: userdata.sessionid,
     }
 
-    export const storeHospitalDetails = (data) => {
-        console.log(data)
-
-        const userdata = JSON.parse(localStorage.getItem("userdata"));
-
-        let hospitaldetails  = {
-            name: data.hospitalname,
-            rawAddress: data.city +" "+ data.state +" "+ data.country ,
-            country: data.country,
-            state: data.state,
-            city: data.city,
-            session: userdata.sessionid,
-        }
-
-        return (dispatch) => {
-            axiosInstance.post("/onboarding/ob2", {hospital : hospitaldetails}, {headers: headers})
-            .then(res=>{
-                console.log(res.data)
-                console.log(res.data.data.savedHospital._id + res.data.data.onboardingSession._id )
-                localStorage.setItem("hospital_id", res.data.data.savedHospital._id)
-                localStorage.setItem("session_id", res.data.data.onboardingSession._id)
-                dispatch({type:"STORE_HOSPITAL_DETAILS", payload: hospitaldetails})
-            }).catch(err => {
-                console.log(err.response)
-            })
-        }
+    return (dispatch) => {
+        axiosInstance.post("/onboarding/ob2", {hospital : hospitaldetails}, {headers: headers})
+        .then(res=>{
+            console.log(res.data)
+            console.log(res.data.data.savedHospital._id + res.data.data.onboardingSession._id )
+            localStorage.setItem("hospital_id", res.data.data.savedHospital._id)
+            localStorage.setItem("session_id", res.data.data.onboardingSession._id)
+            dispatch({type:"STORE_HOSPITAL_DETAILS", payload: hospitaldetails})
+        }).catch(err => {
+            console.log(err.response)
+        })
     }
+}
 
 
-export const getDepartmentDetails = (data) => {
+export const getDepartmentDetails = () => {
     console.log(localStorage.getItem("token"))
     const tokenheaders = {
         "x-access-token": localStorage.getItem("token"),
@@ -162,12 +163,56 @@ export const storeDepartmentDetails = (data) => {
     }
 }
 
-export const storeWardDetails = (data) => {
-    return {
-        type: ActionTypes.STORE_WARD_DETAILS,
-        payload: data
+
+export const getWardsDetails = () => {
+    console.log(localStorage.getItem("token"))
+    const tokenheaders = {
+        "x-access-token": localStorage.getItem("token"),
+        "Content-Type": "application/json",
+      };
+      return (dispatch) => {
+        axiosInstance.get("/templates/wards", {headers : tokenheaders})
+        .then((res) => {
+            console.log(res.data.data)
+            dispatch({type:"GET_WARDS_DETAILS", payload : res.data.data})
+        }).catch(err => {
+            console.log(err.response)
+        })
+      }
+}
+
+
+export const addNewWard = (data) => {
+    console.log(data);
+    let shortname  = data.slice(0, 4)
+    return (dispatch)=>{
+        axiosInstance.post("templates/ward",{ward: {name: data, shortName: shortname}})
+        .then(res => {
+            console.log("helloWbro")
+            console.log(res.data)
+            dispatch({type:"ADD_WARDS", payload: res.data.data})
+        }).catch(err =>{
+            console.log(err.response)
+        })
     }
 }
+
+
+export const storeWardDetails = (data) => {
+    console.log(data)
+    let session = localStorage.getItem("session_id")
+    let hospital = localStorage.getItem("hospital_id")
+    return (dispatch)=>{
+        axiosInstance.post("onboarding/ob4",{hospital: hospital , session: session , wards: data} )
+        .then(res => {
+            console.log(res.data)
+            dispatch({type:"STORE_WARDS_DETAILS",payload: res.data.message})
+        }).catch(err=>{
+            console.log(err.response)
+        })
+    }
+}
+
 
 export const storeBedDetails = (data) => {
     return {
