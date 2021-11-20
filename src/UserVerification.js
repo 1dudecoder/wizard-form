@@ -5,9 +5,11 @@ import { Formik, Form, Field } from "formik";
 
 function UserVerification(props) {
     const dispatch = useDispatch();
+    const adminmobileno = JSON.parse(localStorage.getItem("admindetails"))
     const userotpdata = useSelector(state => {
         return state.allformdata.myuserotpdata
     })
+    
     const onSubmitData = (data) => {
         console.log(data)
         let myobject = Object.values(data);
@@ -15,7 +17,6 @@ function UserVerification(props) {
         for(let i = 1; i < myobject.length; i++){
             otp += myobject[i];
         }
-        // let phonenumber = myobject[0]
 
         const admindata = JSON.parse(localStorage.getItem("admindetails"));
         const _id = admindata.mobile_otp_id
@@ -51,7 +52,7 @@ function UserVerification(props) {
 
             <Form>
                 <label>Mobile No.</label>
-                <Field type="number" name="phonenumber" required/>
+                <Field type="number" value={adminmobileno.mobile} name="phonenumber" required/>
                 <br />
                 <br />
 

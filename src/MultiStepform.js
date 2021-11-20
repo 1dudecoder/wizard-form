@@ -1,6 +1,6 @@
 import React,{useState} from 'react'
 import AdminDetails from './AdminDetails'
-import BedDetails from './BedDetails'
+// import BedDetails from './BedDetails'
 import DepartmentDetails from './DepartmentDetails'
 import EmailOTP from './EmailOTP'
 import Emailverfication from './Emailverfication'
@@ -35,8 +35,8 @@ function MultiStepform() {
             return <DepartmentDetails backtodepartment={goback}/>
             case 4 : 
             return <WardDetails backtodepartment={goback} />
-            case 5 : 
-            return <BedDetails backtodepartment={goback} />
+            // case 5 : 
+            // return <BedDetails backtodepartment={goback} />
             
             default:
                 break;
@@ -67,9 +67,9 @@ function MultiStepform() {
                     setMyStep(4)
                 }}>Ward Details</h4>  
 
-                <h4 onClick={()=>{
+                {/* <h4 onClick={()=>{
                     setMyStep(5)
-                }}>Bed Details</h4>    
+                }}>Bed Details</h4>     */}
             </div>
 
             <div className="my-form">

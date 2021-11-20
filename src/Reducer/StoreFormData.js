@@ -10,6 +10,7 @@ const InitialFormState = {
   getdepartmentdata : [],
   getwardsdata : [],
   addwards : [] ,
+  deletewards : "",
   mywarddata : [],
   mybeddata : [],
 };
@@ -43,6 +44,9 @@ export const formReducer = (state = InitialFormState, { type, payload }) => {
 
     case ActionTypes.ADD_WARDS:
       return { ...state, addwards: payload };
+
+    case ActionTypes.DELETE_WARDS:
+      return { ...state, deletewards: payload };
       
     case ActionTypes.STORE_WARDS_DETAILS:
       return { ...state, mywarddata: payload };
